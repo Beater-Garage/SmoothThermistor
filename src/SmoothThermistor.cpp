@@ -38,8 +38,8 @@
 //Use the following tool to generate A B and C coefficients: https://www.thinksrs.com/downloads/programs/therm%20calc/ntccalibrator/ntccalculator.html
 
 SmoothThermistor::SmoothThermistor(uint8_t analogPin, uint16_t adcSize, 
-                                   uint32_t seriesResistance, uint16_t aCoefficient, uint16_t bCoefficient, uint16_t cCoefficient, uint8_t nominalTemperature, 
-                                   uint8_t samples bool fahrenheit) {
+                                   uint32_t seriesResistance, uint16_t aCoefficient, uint16_t bCoefficient, uint16_t cCoefficient, 
+                                   uint8_t samples, bool fahrenheit) {
 
     _analogPin = analogPin;
     _adcSize = adcSize;

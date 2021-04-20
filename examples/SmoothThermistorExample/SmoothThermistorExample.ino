@@ -27,10 +27,6 @@
  * Date: 23/05/16
  * Time: 20:19
  *
- * Steinhart-Hart FOREAL Branch by Beater-Garage
- * Date: 19/04/21
- * Time: 23:31
- *
  * SmoothThermistor (https://github.com/giannivh/SmoothThermistor)
  * A flexible thermistor reading library.
  *
@@ -63,25 +59,18 @@
 
 // create a SmoothThermistor instance, reading from analog pin 0
 // using a common 10K thermistor.
-SmoothThermistor smoothThermistor(A0, 
-                                  ADC_SIZE_10_BIT,
-                                  4700,
-                                  0.002108508173,
-                                  0.000079792,
-                                  0.0000006535076315,
-                                  10,
-                                  1);
+SmoothThermistor smoothThermistor(A0);
 
 // if you have a different type of thermistor, you can override the default values
-// Standard arguments:
-// SmoothThermistor smoothThermistor(A0,              		// the analog pin to read from
-//                                   ADC_SIZE_10_BIT, 		// the ADC size
-//                                   10000,           		// the series resistance
-//                                   0.002108508173,        // the A coefficient of the thermistor
-//                                   0.000079792,           // the B coefficient of the thermistor
-//                                   0.0000006535076315,    // the C coefficient of the thermistor
-//                                   10,            		// the number of samples to take for each measurement
-//									                 FALSE);				// TRUE to make output in fahrenheit
+// example:
+// SmoothThermistor smoothThermistor(A0,              // the analog pin to read from
+//                                   ADC_SIZE_10_BIT, // the ADC size
+//                                   10000,           // the nominal resistance
+//                                   10000,           // the series resistance
+//                                   3950,            // the beta coefficient of the thermistor
+//                                   25,              // the temperature for nominal resistance
+//                                   10);             // the number of samples to take for each measurement
+
 void setup() {
 
   // set up UART

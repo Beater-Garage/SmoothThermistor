@@ -71,8 +71,7 @@ class SmoothThermistor {
                      float aCoefficient = DEFAULT_A_COEFFICIENT,
                      float bCoefficient = DEFAULT_B_COEFFICIENT,
                      float cCoefficient = DEFAULT_C_COEFFICIENT,
-                     uint8_t nominalTemperature = DEFAULT_NOMINAL_TEMPERATURE,
-                     uint8_t samples = DEFAULT_SAMPLES
+                     uint8_t samples = DEFAULT_SAMPLES,
 					 bool fahrenheit = DEFAULT_UNIT);
 
     void useAREF(bool aref);
@@ -82,11 +81,12 @@ class SmoothThermistor {
 
     uint8_t  _analogPin;
     uint16_t _adcSize;
-    uint32_t _nominalResistance;
     uint32_t _seriesResistance;
-    uint16_t _betaCoefficient;
-    uint8_t  _nominalTemperature;
+    float _aCoefficient;
+    float _bCoefficient;
+    float _cCoefficient;
     uint8_t  _samples;
+	bool fahrenheit;
 };
 
 #endif
