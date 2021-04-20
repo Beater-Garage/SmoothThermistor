@@ -86,7 +86,7 @@ class SmoothThermistor {
     float _bCoefficient;
     float _cCoefficient;
     uint8_t  _samples;
-	bool fahrenheit;
+	uint8_t fahrenheit;
 };
 
 #endif

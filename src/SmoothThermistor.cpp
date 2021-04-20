@@ -38,7 +38,7 @@
 //Use the following tool to generate A B and C coefficients: https://www.thinksrs.com/downloads/programs/therm%20calc/ntccalibrator/ntccalculator.html
 
 SmoothThermistor::SmoothThermistor(uint8_t analogPin, uint16_t adcSize, 
-                                   uint32_t seriesResistance, uint16_t aCoefficient, uint16_t bCoefficient, uint16_t cCoefficient, 
+                                   uint32_t seriesResistance, float aCoefficient, float bCoefficient, float cCoefficient, 
                                    uint8_t samples, uint8_t fahrenheit) {
 
     _analogPin = analogPin;
@@ -48,7 +48,6 @@ SmoothThermistor::SmoothThermistor(uint8_t analogPin, uint16_t adcSize,
 	_bCoefficient = bCoefficient;
 	_cCoefficient = cCoefficient;
     _samples = samples;
-	_fahrenheit = fahrenheit;
 }
 
 void SmoothThermistor::useAREF(bool aref) {
@@ -81,10 +80,10 @@ float SmoothThermistor::temperature(void) {
 	}
 
     // Steinhart–Hart equation, based on https://learn.adafruit.com/thermistor/using-a-thermistor
-    float inv_steinhart = aCoefficient+bCoefficient*log(average)+cCoefficient*pow(3.0,log(average));
+    float inv_steinhart = _aCoefficient+_bCoefficient*log(average)+_cCoefficient*pow(3.0,log(average));
     float steinhart = 1.0 / inv_steinhart; // invert
     steinhart -= 273.15; // convert to celsius
-	if(fahrenheit){
+	if(fahrenheit==1){
 		steinhart *= (9/5);
 		steinhart += 32;
 	}
