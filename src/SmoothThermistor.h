@@ -49,7 +49,7 @@
 #define ADC_SIZE_10_BIT             10
 #define ADC_SIZE_12_BIT             12
 #define ADC_SIZE_16_BIT             16
-#define DEFAULT_UNIT				FALSE //TRUE for fahrenheit
+#define DEFAULT_UNIT				0 //1 for fahrenheit
 
 
 class SmoothThermistor {
@@ -72,7 +72,7 @@ class SmoothThermistor {
                      float bCoefficient = DEFAULT_B_COEFFICIENT,
                      float cCoefficient = DEFAULT_C_COEFFICIENT,
                      uint8_t samples = DEFAULT_SAMPLES,
-					 bool fahrenheit = DEFAULT_UNIT);
+					 uint8_t fahrenheit = DEFAULT_UNIT);
 
     void useAREF(bool aref);
     float temperature(void);

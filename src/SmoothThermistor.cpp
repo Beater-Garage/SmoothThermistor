@@ -39,7 +39,7 @@
 
 SmoothThermistor::SmoothThermistor(uint8_t analogPin, uint16_t adcSize, 
                                    uint32_t seriesResistance, uint16_t aCoefficient, uint16_t bCoefficient, uint16_t cCoefficient, 
-                                   uint8_t samples, bool fahrenheit) {
+                                   uint8_t samples, uint8_t fahrenheit) {
 
     _analogPin = analogPin;
     _adcSize = adcSize;
@@ -73,7 +73,7 @@ float SmoothThermistor::temperature(void) {
     average /= _samples; //Divide the summed average variable by the number of samples
 
     // convert the value to resistance, avoid divide by 0 error
-	if(average = 0){
+	if(average == 0){
 		average = 1;
 	}
 	else{
@@ -82,7 +82,7 @@ float SmoothThermistor::temperature(void) {
 
     // Steinhart–Hart equation, based on https://learn.adafruit.com/thermistor/using-a-thermistor
     float inv_steinhart = aCoefficient+bCoefficient*log(average)+cCoefficient*pow(3.0,log(average));
-    steinhart = 1.0 / inv_steinhart; // invert
+    float steinhart = 1.0 / inv_steinhart; // invert
     steinhart -= 273.15; // convert to celsius
 	if(fahrenheit){
 		steinhart *= (9/5);
