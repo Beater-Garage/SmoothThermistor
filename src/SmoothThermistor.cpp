@@ -35,17 +35,20 @@
 #include "SmoothThermistor.h"
 #include <math.h>
 
-SmoothThermistor::SmoothThermistor(uint8_t analogPin, uint16_t adcSize, uint32_t nominalResistance, 
-                                   uint32_t seriesResistance, uint16_t betaCoefficient, uint8_t nominalTemperature, 
-                                   uint8_t samples) {
+//Use the following tool to generate A B and C coefficients: https://www.thinksrs.com/downloads/programs/therm%20calc/ntccalibrator/ntccalculator.html
+
+SmoothThermistor::SmoothThermistor(uint8_t analogPin, uint16_t adcSize, 
+                                   uint32_t seriesResistance, uint16_t aCoefficient, uint16_t bCoefficient, uint16_t cCoefficient, uint8_t nominalTemperature, 
+                                   uint8_t samples bool fahrenheit) {
 
     _analogPin = analogPin;
     _adcSize = adcSize;
-    _nominalResistance = nominalResistance;
     _seriesResistance = seriesResistance;
-    _betaCoefficient = betaCoefficient;
-    _nominalTemperature = nominalTemperature;
+    _aCoefficient = aCoefficient;
+	_bCoefficient = bCoefficient;
+	_cCoefficient = cCoefficient;
     _samples = samples;
+	_fahrenheit = fahrenheit;
 }
 
 void SmoothThermistor::useAREF(bool aref) {
@@ -64,19 +67,27 @@ float SmoothThermistor::temperature(void) {
     for (uint8_t i = 0; i < _samples; i++) {
 
         average += analogRead(_analogPin);
-        delay(10);
+        delay(10); //Take analog reading every 10 ms and add the raw value to the average variable
     }
 
-    average /= _samples;
+    average /= _samples; //Divide the summed average variable by the number of samples
 
-    // convert the value to resistance
-    average = _seriesResistance * ((pow(2.0, _adcSize) - 1) / average - 1);
+    // convert the value to resistance, avoid divide by 0 error
+	if(average = 0){
+		average = 1;
+	}
+	else{
+    average = _seriesResistance * ((pow(2.0, _adcSize) - 1) / average - 1);  //Rearranged voltage divider equation, if average is 0, divide by 0 error possible w/o if else statement
+	}
 
     // Steinhart–Hart equation, based on https://learn.adafruit.com/thermistor/using-a-thermistor
-    float steinhart = (log(average / _nominalResistance)) / _betaCoefficient;
-    steinhart += 1.0 / (_nominalTemperature + 273.15);
-    steinhart = 1.0 / steinhart; // invert
+    float inv_steinhart = aCoefficient+bCoefficient*log(average)+cCoefficient*pow(3.0,log(average));
+    steinhart = 1.0 / inv_steinhart; // invert
     steinhart -= 273.15; // convert to celsius
-
+	if(fahrenheit){
+		steinhart *= (9/5);
+		steinhart += 32;
+	}
+	
     return steinhart;
 }

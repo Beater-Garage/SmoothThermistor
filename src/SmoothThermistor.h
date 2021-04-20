@@ -29,6 +29,9 @@
  *
  * SmoothThermistor (https://github.com/giannivh/SmoothThermistor)
  * A flexible thermistor reading library.
+ *
+ * Steinhart-Hart updates by Beater-Garage
+ *
  */
 
 #ifndef SmoothThermistor_h
@@ -36,15 +39,18 @@
 
 #include "Arduino.h"
 
-#define DEFAULT_NOMINAL_RESISTANCE  10000
 #define DEFAULT_SERIES_RESISTANCE   10000
-#define DEFAULT_BETA_COEFFICIENT    3950
-#define DEFAULT_NOMINAL_TEMPERATURE 25
+//Default coefficients generated from Delphi 12146312 temp sensor
+#define DEFAULT_A_COEFFICIENT    	0.002108508173
+#define DEFAULT_B_COEFFICIENT    	0.000079792
+#define DEFAULT_C_COEFFICIENT    	0.0000006535076315
 #define DEFAULT_SAMPLES             10
 #define ADC_SIZE_8_BIT              8
 #define ADC_SIZE_10_BIT             10
 #define ADC_SIZE_12_BIT             12
 #define ADC_SIZE_16_BIT             16
+#define DEFAULT_UNIT				FALSE //TRUE for fahrenheit
+
 
 class SmoothThermistor {
   public:
@@ -52,19 +58,22 @@ class SmoothThermistor {
     /**
      * @param analogPin          The analog pin where the thermistor is connected to.
      * @param adcSize            The ADC size. This is usually ADC_SIZE_10_BIT.
-     * @param nominalResistance  The nominal resistance at 25 degrees celsius.
      * @param seriesResistance   The value of the series resistor.
-     * @param betaCoefficient    The beta coefficient of the thermistor.
-     * @param nominalTemperature The temperature for nominal resistance. This is usually 25.
+     * @param aCoefficient    	 The A coefficient of the thermistor.
+     * @param bCoefficient    	 The B coefficient of the thermistor.
+     * @param cCoefficient    	 The C coefficient of the thermistor.
      * @param samples            The number of samples to take for temperature smoothing.
+	 * @param fahrenheit         TRUE to return value in fahrenheit.
      */
     SmoothThermistor(uint8_t analogPin,
                      uint16_t adcSize = ADC_SIZE_10_BIT,
-                     uint32_t nominalResistance = DEFAULT_NOMINAL_RESISTANCE,
                      uint32_t seriesResistance = DEFAULT_SERIES_RESISTANCE,
-                     uint16_t betaCoefficient = DEFAULT_BETA_COEFFICIENT,
+                     float aCoefficient = DEFAULT_A_COEFFICIENT,
+                     float bCoefficient = DEFAULT_B_COEFFICIENT,
+                     float cCoefficient = DEFAULT_C_COEFFICIENT,
                      uint8_t nominalTemperature = DEFAULT_NOMINAL_TEMPERATURE,
-                     uint8_t samples = DEFAULT_SAMPLES);
+                     uint8_t samples = DEFAULT_SAMPLES
+					 bool fahrenheit = DEFAULT_UNIT);
 
     void useAREF(bool aref);
     float temperature(void);
