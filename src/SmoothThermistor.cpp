@@ -72,15 +72,16 @@ float SmoothThermistor::temperature(void) {
     average /= _samples; //Divide the summed average variable by the number of samples
 
     // convert the value to resistance, avoid divide by 0 error
-	if(average == 0){
+	if(average == (pow(2.0, _adcSize))){
 		average = 1;
 	}
+	/*I believe the equation used to determine resistance "R = 10K / (1023/ADC - 1)" from the original master may be wrong.*/
 	else{
-    average = _seriesResistance * ((pow(2.0, _adcSize) - 1) / average - 1);  //Rearranged voltage divider equation, if average is 0, divide by 0 error possible w/o if else statement
+    average = (_seriesResistance * average) / ((pow(2.0, _adcSize)) - average);  //Rearranged voltage divider equation, if average is 0, divide by 0 error possible w/o if else statement
 	}
 
     // Steinhart–Hart equation, based on https://learn.adafruit.com/thermistor/using-a-thermistor
-    float inv_steinhart = _aCoefficient+_bCoefficient*log(average)+_cCoefficient*pow(3.0,log(average));
+    float inv_steinhart = _aCoefficient+_bCoefficient*log(average)+_cCoefficient*pow(log(average),3.0);
     float steinhart = 1.0 / inv_steinhart; // invert
     steinhart -= 273.15; // convert to celsius
 	if(fahrenheit==1){
