@@ -45,13 +45,14 @@ SmoothThermistor smoothThermistor(A0);
 
 If you have a thermistor with different values, you can override the default values. Create an instance as follows:
 ```cpp
-SmoothThermistor smoothThermistor(A0,              // the analog pin to read from
-                                  ADC_SIZE_10_BIT, // the ADC size
-                                  10000,           // the nominal resistance
-                                  10000,           // the series resistance
-                                  3950,            // the beta coefficient of the thermistor
-                                  25,              // the temperature for nominal resistance
-                                  10);             // the number of samples to take for each measurement
+SmoothThermistor smoothThermistor(A0,              	   // the analog pin to read from
+                                ADC_SIZE_10_BIT, 	   // the ADC size
+                                10000,           	   // the series resistance
+                                0.002108508173,        // the A coefficient of the thermistor
+                                0.000079792,           // the B coefficient of the thermistor
+                                0.0000006535076315,    // the C coefficient of the thermistor
+                                10,            		   // the number of samples to take for each measurement
+								FALSE);				   // TRUE to make output in fahrenheit
 ```
 
 When using the more advanced circuit, don't forget to use AREF:
