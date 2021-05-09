@@ -39,7 +39,7 @@
 
 #include "Arduino.h"
 
-#define DEFAULT_SERIES_RESISTANCE   10000
+#define DEFAULT_SERIES_RESISTANCE   4700
 //Default coefficients generated from Delphi 12146312 temp sensor
 #define DEFAULT_A_COEFFICIENT    	0.001467817056
 #define DEFAULT_B_COEFFICIENT    	0.0002309070221
@@ -86,7 +86,7 @@ class SmoothThermistor {
     float _bCoefficient;
     float _cCoefficient;
     uint8_t  _samples;
-	uint8_t fahrenheit;
+	uint8_t _fahrenheit;
 };
 
 #endif

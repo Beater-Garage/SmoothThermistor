@@ -48,6 +48,7 @@ SmoothThermistor::SmoothThermistor(uint8_t analogPin, uint16_t adcSize,
 	_bCoefficient = bCoefficient;
 	_cCoefficient = cCoefficient;
     _samples = samples;
+	_fahrenheit = fahrenheit;
 }
 
 void SmoothThermistor::useAREF(bool aref) {
