@@ -85,7 +85,7 @@ float SmoothThermistor::temperature(void) {
     float inv_steinhart = _aCoefficient+_bCoefficient*log(average)+_cCoefficient*pow(log(average),3.0);
     float steinhart = 1.0 / inv_steinhart; // invert
     steinhart -= 273.15; // convert to celsius
-	if(fahrenheit==1){
+	if(_fahrenheit==1){
 		steinhart *= (9/5);
 		steinhart += 32;
 	}
